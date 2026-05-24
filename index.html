@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WinDir Explorer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="theme-dark">
+
+  <!-- TOP TOOLBAR: path bar + controls -->
+  <div class="toolbar">
+    <button class="btn" id="btn-back" disabled>← Back</button>
+    <button class="btn" id="btn-refresh">↺ Refresh</button>
+    <button class="btn" id="btn-open-sel" disabled>▶ Open</button>
+    <button class="btn btn-danger" id="btn-delete" disabled>🗑 Delete</button>
+
+    <div class="path-area">
+      <span class="path-label">›</span>
+      <input class="path-input" id="path-input"
+        type="text" placeholder="Type a path and press Enter…" />
+      <button class="btn" id="btn-open">Open</button>
+    </div>
+
+    <input class="filter-input" id="filter-input" 
+      type="text" placeholder="🔍 Filter…" />
+
+    <label class="toggle-label">
+      <input type="checkbox" id="toggle-hidden" />
+      Hidden files
+    </label>
+
+    <div class="theme-switcher">
+      <button class="theme-btn active" id="theme-dark"  title="Dark">⬛</button>
+      <button class="theme-btn"        id="theme-blue"  title="Terminal">🟦</button>
+      <button class="theme-btn"        id="theme-light" title="Light">⬜</button>
+    </div>
+  </div>
+
+  <!-- ls -la STYLE TABLE -->
+  <div class="table-wrap">
+    <table class="file-table">
+
+      <thead>
+        <tr>
+          <th class="col-perm">Permissions</th>
+          <th class="col-size  sortable" data-col="size">Size</th>
+          <th class="col-date  sortable" data-col="date">Modified</th>
+          <th class="col-type">Type</th>
+          <th class="col-name  sortable" data-col="name">Name</th>
+        </tr>
+      </thead>
+
+      <!-- Rows will be added here by JavaScript later -->
+      <tbody id="file-tbody">
+
+        <!-- SAMPLE ROW so you can see the design right now -->
+        <tr>
+          <td class="perm-cell">drwxr-xr-x</td>
+          <td class="size-cell">4.2 KB</td>
+          <td class="date-cell">2026-05-23 14:30</td>
+          <td class="type-cell">Folder</td>
+          <td class="name-cell is-dir">📁 Documents</td>
+        </tr>
+        <tr>
+          <td class="perm-cell">-rw-r--r--</td>
+          <td class="size-cell">128 KB</td>
+          <td class="date-cell">2026-05-20 09:15</td>
+          <td class="type-cell">.PDF</td>
+          <td class="name-cell">📕 report.pdf</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Status bar at the bottom -->
+  <div class="statusbar" id="statusbar">
+    Ready — open a folder to explore
+  </div>
+
+  <!-- Right-click context menu -->
+  <div class="ctx-menu" id="ctx-menu" style="display:none">
+    <div class="ctx-item" id="ctx-open">📂 Open</div>
+    <div class="ctx-item" id="ctx-copy-path">📋 Copy Full Path</div>
+    <div class="ctx-item" id="ctx-copy-name">📝 Copy Name</div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

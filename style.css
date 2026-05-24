@@ -1,0 +1,346 @@
+/* =============================================
+   CSS VARIABLES — this is how themes work.
+   Each theme just redefines these same variables.
+   The rest of the CSS always reads from variables,
+   so swapping a theme changes everything at once.
+   ============================================= */
+
+/* ── THEME 1: Dark (default) ── */
+body.theme-dark {
+  --bg:         #0a0e14;
+  --bg2:        #10161f;
+  --border:     #1e2d40;
+  --text:       #c8d8e8;
+  --text-dim:   #4a6070;
+  --accent:     #00d4ff;
+  --col-perm:   #3dffa0;   /* green  — permissions */
+  --col-size:   #ffcc00;   /* yellow — size        */
+  --col-date:   #ff9966;   /* orange — date        */
+  --col-name:   #c8d8e8;   /* white  — name        */
+  --dir-color:  #58a6ff;   /* blue   — folders     */
+  --row-hover:  rgba(0, 212, 255, 0.07);
+  --header-bg:  #0d1420;
+}
+
+/* ── THEME 2: Terminal Blue ── */
+body.theme-blue {
+  --bg:         #020c14;
+  --bg2:        #051220;
+  --border:     #0a2a40;
+  --text:       #00ff88;
+  --text-dim:   #0a5030;
+  --accent:     #00ffcc;
+  --col-perm:   #00ff88;
+  --col-size:   #00ccff;
+  --col-date:   #0088ff;
+  --col-name:   #00ff88;
+  --dir-color:  #00ccff;
+  --row-hover:  rgba(0, 255, 136, 0.07);
+  --header-bg:  #030f1a;
+}
+
+/* ── THEME 3: Light ── */
+body.theme-light {
+  --bg:         #f5f7fa;
+  --bg2:        #ffffff;
+  --border:     #dde3ed;
+  --text:       #1a2332;
+  --text-dim:   #8a9ab0;
+  --accent:     #0066cc;
+  --col-perm:   #16803c;
+  --col-size:   #b45309;
+  --col-date:   #c2410c;
+  --col-name:   #1a2332;
+  --dir-color:  #1d4ed8;
+  --row-hover:  rgba(0, 102, 204, 0.06);
+  --header-bg:  #eef1f6;
+}
+
+/* =============================================
+   BASE STYLES
+   Everything below uses var(--...) so it works
+   with ALL three themes automatically.
+   ============================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 13px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Toolbar ── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  gap: 10px;
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+  border-color: var(--text-dim);
+  color: var(--text-dim);
+}
+
+.path-area {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 8px;
+}
+
+.path-label {
+  color: var(--accent);
+  font-size: 16px;
+}
+
+.path-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  padding: 6px 0;
+}
+
+.btn {
+  padding: 5px 14px;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.btn:hover {
+  background: var(--accent);
+  color: #000;
+}
+
+/* ── Theme switcher ── */
+.theme-switcher {
+  display: flex;
+  gap: 4px;
+}
+
+.theme-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: border-color 0.15s;
+}
+.theme-btn:hover,
+.theme-btn.active {
+  border-color: var(--accent);
+}
+
+/* ── Table wrapper ── */
+.table-wrap {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ── File table ── */
+.file-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* Column widths */
+.col-perm { width: 160px; }
+.col-size { width: 100px; }
+.col-date { width: 180px; }
+.col-name { width: auto;  }
+
+/* Header row */
+.file-table thead tr {
+  background: var(--header-bg);
+  border-bottom: 2px solid var(--border);
+}
+
+.file-table th {
+  padding: 8px 16px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* Data rows */
+.file-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+  cursor: pointer;
+}
+.file-table tbody tr:hover {
+  background: var(--row-hover);
+}
+
+.file-table td {
+  padding: 5px 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Colored columns ── */
+.perm-cell { color: var(--col-perm);  }
+.size-cell { color: var(--col-size);  text-align: right; padding-right: 24px; }
+.date-cell { color: var(--col-date);  }
+.name-cell { color: var(--col-name);  }
+
+/* Folders stand out */
+.name-cell.is-dir {
+  color: var(--dir-color);
+  font-weight: 500;
+}
+
+/* ── Status bar ── */
+.statusbar {
+  padding: 5px 16px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Sortable column headers ── */
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+.sortable:hover {
+  color: var(--accent);
+}
+/* The ↑ ↓ arrow shown on the active sort column */
+.sortable::after {
+  content: ' ↕';
+  opacity: 0.3;
+  font-size: 10px;
+}
+.sortable.sort-asc::after  { content: ' ↑'; opacity: 1; color: var(--accent); }
+.sortable.sort-desc::after { content: ' ↓'; opacity: 1; color: var(--accent); }
+
+/* Highlight the active sort column */
+.file-table th.sort-asc,
+.file-table th.sort-desc {
+  color: var(--accent);
+}
+
+/* Type column */
+.col-type { width: 90px; }
+.type-cell {
+  color: var(--text-dim);
+  font-size: 11px;
+}
+
+/* ── Filter input ── */
+.filter-input {
+  padding: 5px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 12px;
+  width: 140px;
+  outline: none;
+}
+.filter-input:focus {
+  border-color: var(--accent);
+}
+
+/* ── Hidden files toggle ── */
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-dim);
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.toggle-label input {
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* ── Right-click context menu ── */
+.ctx-menu {
+  position: fixed;
+  z-index: 9999;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  padding: 4px 0;
+  font-size: 13px;
+}
+.ctx-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  color: var(--text);
+  transition: background 0.1s;
+}
+.ctx-item:hover {
+  background: var(--row-hover);
+  color: var(--accent);
+}
+
+/* Selected row */
+.file-table tbody tr.selected {
+  background: rgba(0, 212, 255, 0.12);
+  outline: 1px solid rgba(0, 212, 255, 0.3);
+  outline-offset: -1px;
+}
+
+/* Delete button — red accent */
+.btn-danger {
+  border-color: #ff4d6d;
+  color: #ff4d6d;
+}
+.btn-danger:hover:not(:disabled) {
+  background: #ff4d6d;
+  color: #000;
+}
